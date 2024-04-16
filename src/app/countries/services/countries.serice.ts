@@ -36,4 +36,20 @@ export class CountriesService {
       )
   }
 
+
+  getCountryByAplhaCode(alphaCode: string): Observable<SmallCountry>{
+
+    const url: string = `${this.baseUrl}/alpha/${alphaCode}?fields=cca3,name,borders`;
+
+    return this.http.get<Country>(url) //aunque querammos trabajar con small country la llamada devuelve country, asique se coge y se transforma con map
+      .pipe(
+        map(resp => ({
+          name:resp.name.common,
+          cca3: resp.cca3,
+          borders: resp.borders ?? []
+        })),
+        tap(response => console.log({response}))
+      )
+  }
+
 }
