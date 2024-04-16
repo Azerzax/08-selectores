@@ -2,6 +2,7 @@
 <hr>
 
 <form [formGroup]="myform" action="">
+
   <div class="row mb-3">
     <div class="col">
       <label for="" class="form-label">Continente:</label>
@@ -11,6 +12,17 @@
       </select>
     </div>
   </div>
+
+  <div class="row mb-3">
+    <div class="col">
+      <label for="" class="form-label">Pais:</label>
+      <select formControlName="country" id="" class="form-control">
+        <option value="">seleccione pais</option>
+        <option  *ngFor="let country of countriesByRegion"  [value]="country.cca3">{{country.cca3}}</option>
+      </select>
+    </div>
+  </div>
+
 </form>
 
 <h3>Formulario:</h3>
