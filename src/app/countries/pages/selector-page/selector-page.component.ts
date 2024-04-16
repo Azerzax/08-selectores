@@ -12,7 +12,7 @@ import { filter, switchMap, tap } from 'rxjs';
 export class SelectorPageComponent implements OnInit{
 
   public countriesByRegion: SmallCountry[]=[];
-  public borders:string[]=[];
+  public borders:SmallCountry[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -53,11 +53,12 @@ export class SelectorPageComponent implements OnInit{
     .pipe(
       tap(() => this.myform.get('border')!.setValue('')), //limpiar el selector de pais al cambiar el select de los continentes.
       filter((value: string) => value.length>0),
-      switchMap( (resp) => this.countriesService.getCountryByAplhaCode(resp))
+      switchMap( (alphacode) => this.countriesService.getCountryByAplhaCode(alphacode)),
+      switchMap( (country) => this.countriesService.getCountryBordersByCodes(country.borders))
     )
-    .subscribe(val =>{
-      this.borders = val.borders;
-      console.log({borders: val.borders});
+    .subscribe(countries =>{
+      this.borders = countries;
+      console.log({borders: countries});
     });
   }
 
